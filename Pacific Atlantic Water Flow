@@ -1,0 +1,31 @@
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        m,n=len(heights),len(heights[0])
+        pacific=[[False]*n for i in range(m)]
+        atlantic=[[False]*n for i in range(m)]
+        def visit(row,col,ocean):
+            if ocean[row][col]:
+                return
+            ocean[row][col]=True
+            q=[[row,col]]
+            directions=[[-1,0],[1,0],[0,-1],[0,1]]
+            while q:
+                curr=q.pop(0)
+                for direction in directions:
+                    newR=curr[0]+direction[0]
+                    newC=curr[1]+direction[1]
+                    if newR>=0 and newC>=0 and newR<m and newC <n and ocean[newR][newC]==False and heights[newR][newC]>=heights[curr[0]][curr[1]]:
+                        ocean[newR][newC]=True
+                        q.append([newR,newC])
+        for row in range(m):
+            visit(row,0,pacific)
+            visit(row,n-1,atlantic)
+        for col in range(n):
+            visit(0,col,pacific)
+            visit(m-1,col,atlantic)
+        res=[]
+        for row in range(m):
+            for col in range(n):
+                if pacific[row][col] and atlantic[row][col]:
+                    res.append([row,col])
+        return res
