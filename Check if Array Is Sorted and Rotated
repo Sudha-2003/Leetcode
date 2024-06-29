@@ -1,0 +1,7 @@
+class Solution:
+    def check(self, nums: List[int]) -> bool:
+        rotation=0
+        for i in range(len(nums)):
+            if nums[i]<nums[i-1]:
+                rotation+=1
+        return True if rotation<=1 else False
